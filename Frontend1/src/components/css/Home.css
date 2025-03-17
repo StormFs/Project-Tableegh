@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    white-space: nowrap;
+
+}
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+.navbar .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+.navbar .user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.navbar .user img {
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.navbar .dropdown {
+    display: none;
+    position: absolute;
+    right: -10px;
+    top: 54px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+}
+.navbar .dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+}
+.navbar .dropdown a:hover {
+    background-color: #ddd;
+}
+.content {
+    padding: 20px;
+}
+.content h1 {
+    text-align: center;
+}
+.content .section {
+    display: flex;
+    align-items: center;
+    background-color: #50b65996;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 2% ;
+}
+.content .section img {
+    max-width: 50%;
+    height: auto;
+    margin-right: 20px;
+}
+.content .section p {
+    text-align: justify;
+    margin: 0;
+    flex: 1;
+}
+.content .section button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.content .section.hadith {
+    flex-direction: row-reverse;
+}
+.content .section.hadith img {
+    margin-right: 0;
+    margin-left: 20px;
+}
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

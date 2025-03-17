@@ -1,0 +1,27 @@
+.verses-container {
+    position: relative; 
+    text-align: left;
+    margin-right: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.verse-containers {
+    margin-bottom: 20px;
+    text-align: right;
+    margin-right: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.FaHeart {
+    color: red;
+}
+
+.FaRegHeart {
+    color: red;
+}
