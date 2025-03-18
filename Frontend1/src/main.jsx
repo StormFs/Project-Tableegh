@@ -8,16 +8,16 @@ import Surah from "./components/Surah";
 import { Auth0Provider } from '@auth0/auth0-react';
 import { UserProvider } from './components/UserContext';
 import LikedVerses from "./components/likedverses";
-
-const doain = "project-tableegh.firebaseapp.com"
+import Profile from "./components/Profile";
+const domain = "project-tableegh.firebaseapp.com"
 const clientId = "1:679343328871:web:d43b469e370e56d5078ec2"
-
+import Hadith from "./components/Hadith";
 
 
 export default function App() {
   return (
     <Auth0Provider
-      domain={doain}
+      domain={domain}
       clientId={clientId}
       authorizationParams={{
         redirect_uri: window.location.origin
@@ -29,8 +29,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/quran" element={<Quran />} />
+        <Route path="/hadith" element={<Hadith />} />
         <Route path="/quran/:surah_number" element={<Surah />} />
         <Route path="/liked-verses" element={<LikedVerses />} />
+        <Route path="/profile/:username" element={<Profile />} />
       </Routes>
       </UserProvider>
     </BrowserRouter>

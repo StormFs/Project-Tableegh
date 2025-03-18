@@ -7,11 +7,18 @@ import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useUser } from './UserContext';
+import { Helmet } from 'react-helmet';
+import user from "./user.png";
+import logo from "./favicon.png";
+import { KeyboardEvent } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [isSignup, setIsSignup] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+
 
     const [signupUsername, setSignupUsername] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
@@ -24,6 +31,8 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const [usernameExistsError, setUsernameExistsError] = useState('');
     const [emailExistsError, setEmailExistsError] = useState('');
+    const [isEnterPressed, setIsEnterPressed] = useState(false);
+
 
     const loginUrl = 'http://localhost:5143/api/login';
     const signupUrl = 'http://localhost:5143/api/signup';
@@ -31,12 +40,24 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            setIsEnterPressed(true);
+            if (isSignup) {
+                handleSignup();
+            } else {
+                handleLogin();
+            }
+        }
+    };
+
     const handleLogin = async () => {
         try {
             const response = await axios.post(loginUrl, {
                 username: username, 
                 password: password
             });
+            
             setLoginResponse(response.data);
             if (response.data && response.data.success) {
                 setGlobalUsername(username);
@@ -145,14 +166,16 @@ const Login = () => {
 
     return (
         <div className='body'>
-        <head>
+        <Helmet>
             {isSignup ? <title>Tableegh | Signup</title> : <title>Tableegh | Login</title>}
-        </head>
+        </Helmet>
             <div className="signup-container">
-                <h2>Allah hu Akbar</h2>
-                
+                <div className="logo" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <img src={logo} alt="Logo" />
+                </div>
+                <hr />
                 {isSignup ? (
-                <form action="/signup" method="post">
+                <form action="/signup" method="post" onKeyPress={handleKeyPress}>
                     <label htmlFor="username">Username</label>
                     <input autoComplete='username' type="text" id="username" name="username" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} placeholder='Enter your username' required />
                     {usernameExistsError && <div className="error" style={{color: 'red', paddingBottom: '20px'}}>{usernameExistsError}</div>}
@@ -164,14 +187,15 @@ const Login = () => {
                     {emailExistsError && <div className="error" style={{color: 'red', paddingBottom: '20px'}}>{emailExistsError}</div>}
                 </form>
                 ) : (
-                <form action="/login" method="post">
+                <form action="/login" method="post" onKeyPress={handleKeyPress}>
                     <label htmlFor="username">Username</label>
                     <input autoComplete='username' type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Enter your username' required />
-                    <label htmlFor="password">  Password</label>
+                    <label htmlFor="password">Password</label>
                     <input autoComplete='current-password' type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Enter your password' required />
                     {passwordError && <div className="error" style={{color: 'red', paddingBottom: '20px'}}>{passwordError}</div>}
                 </form>
                 )}
+                <hr />
                 <div className="button-container">
                     <Button variant="primary" type="submit" className='mx-2' onClick={handleSignuppage}>Sign Up</Button>
                     <Button variant="dark" type="submit" className='mx-2' onClick={handleSubmit}>Login</Button>

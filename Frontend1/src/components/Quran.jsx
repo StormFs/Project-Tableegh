@@ -91,7 +91,7 @@ const Quran =   () => {
                 <h1 className='text-center' style={{ fontSize: '40px', fontWeight: 'bold' }}>القرآن الكريم</h1>
                 <div className="surah-list" style={{ marginTop: '25px' }}>   
                     {surah.map(surah => (
-                        <div key={surah.surah_number} className='container' onClick={() => navigate(`/quran/${surah.surah_number}`)} style={{ textAlign: 'right', flexDirection: 'column', flexGrow: 1}}>
+                        <div key={surah.surah_number} className='container' onClick={() => navigate(`/quran/${surah.surah_number}`)} style={{ textAlign: 'right', flexDirection: 'column', flexGrow: 1, cursor:'pointer'}}>
                             <div className="surah-container">
                                 <div className="surah-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <bdi className="surah-number-name h3">{surah.surah_number} - {surah.surah_name_arabic} </bdi>
