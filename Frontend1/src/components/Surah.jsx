@@ -6,6 +6,7 @@ import Footer from './Footer';
 import { useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import './css/Surah.css';
+import './css/SharedAnimations.css';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { Helmet } from 'react-helmet';
@@ -96,23 +97,20 @@ const Surah = () => {
     }
 
     return (
-        <div>
+        <div className="surah-page-container fade-in">
             <Helmet>
                 <title>Tableegh - Surah {surah_number}</title>
             </Helmet>
             <Header />
-            <h5 style={{ marginTop: '100px', marginBottom: '20px', textAlign: 'center' }}>Font Size</h5>
-            <div className="font-size-container" style={{marginBottom: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-                <button onClick={() => setFontSize(fontSize + 2)}>+</button>
-                <p>{fontSize}</p>
-                <button onClick={() => setFontSize(fontSize - 2)}>-</button>
-            </div>
+            <h1 className="surah-title" style={{marginTop: '100px'}}>{name}</h1>
             <hr />
-            <h1 style={{ marginTop: '20px', textAlign: 'center' }}>{name}</h1>
-            <hr />
-            <div className="verses-container" style={{ marginTop: '20px' }}>
-                {surah.map((verse) => (
-                    <ul className="verse-containers" style={{ marginBottom: '20px' }} key={verse.verse_number}>
+            <div className="verses-container">
+                {surah.map((verse, index) => (
+                    <div 
+                        key={verse.verse_number} 
+                        className="verse-container"
+                        style={{animationDelay: `${index * 0.1}s`}}
+                    >
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <button style={{backgroundColor: 'transparent', border: 'none', marginRight: '10px'}} onClick={() => toggleLike(verse.verse_number)}>
                                 {likedVerses.has(verse.verse_number) ? <FaHeart style={{color: 'red'}} size={30} /> : <FaRegHeart size={30} />}
@@ -124,7 +122,7 @@ const Surah = () => {
                         <hr />
                         <p style={{ fontSize: `${fontSize}px`, marginTop: '20px', textAlign: 'left' }}>{verse.english}</p>
                         <br />
-                    </ul>
+                    </div>
                 ))}
             </div>
             <Footer />

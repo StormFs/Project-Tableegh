@@ -43,3 +43,82 @@
 .surah-container:hover .surah-details {
     height: 100px;
 }
+
+.quran-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.quran-title {
+    font-size: 3rem;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-out;
+    margin-top: 100px;
+}
+
+.surah-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.surah-container {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.surah-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.surah-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.surah-number-name {
+    font-size: 1.5rem;
+    color: #2c3e50;
+}
+
+.surah-english-name {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.surah-verses {
+    color: #95a5a6;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.like-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.like-button:hover {
+    transform: scale(1.2);
+}
+
+.like-button svg {
+    transition: color 0.3s ease;
+}
+
+.like-button:hover svg {
+    color: #e74c3c;
+}

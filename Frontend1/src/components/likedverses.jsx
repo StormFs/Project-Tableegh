@@ -5,6 +5,8 @@ import Header from './Header';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import './css/LikedVerses.css';
+import './css/SharedAnimations.css';
 
 
 const LikedVerses = () => {
@@ -66,33 +68,41 @@ const LikedVerses = () => {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div>
+        <div className="liked-verses-container fade-in">
             <Helmet>
                 <title>Liked Verses</title>
             </Helmet>
             <Header />
-            {likedVerses.length === 0 ? (
-                <h1 style={{ marginTop: '100px', textAlign: 'center' }}>No liked verses found</h1>
-            ) : (
-                <h1 style={{ marginTop: '100px', textAlign: 'center' }}>Liked Verses</h1>
-            )}
-            {likedVerses.map((verse) => (
-                <div style={{ margin: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '10px', alignItems: 'right', display: 'flex', flexDirection: 'column', gap: '10px'}} key={`${verse.surah_number}-${verse.verse_number}`}>
-
-                    <h5 style={{ textAlign: 'right' }}>{verse.verse_number}       :       {verse.surah_name_arabic}</h5>
-                    <hr style={{ width: '100%' }} />
-                    <h4 style={{ textAlign: 'right' }}>{verse.arabic}</h4>
-                    <br />
-                    <h5 style={{ textAlign: 'right' }}>{verse.english}</h5>
-                    <button style={{backgroundColor: 'transparent'}} onClick={() => toggleLike(verse.verse_number, verse.surah_number)}>
-                        {<FaHeart style={{ color: 'red' , backgroundColor: 'transparent'}} />}
-                    </button>
-                    <button onClick={() => navigate(`/quran/${verse.surah_number}`)}>
-                        Go to Surah
-                    </button>
+            <h1 className="liked-verses-title" style={{marginTop: '100px'}}>Liked Verses</h1>
+            {likedVerses.length > 0 ? (
+                <div className="liked-verses-list">
+                    {likedVerses.map((verse, index) => (
+                        <div 
+                            key={verse.id} 
+                            className="liked-verse-card"
+                            style={{animationDelay: `${index * 0.1}s`}}
+                        >
+                            <div style={{ margin: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '10px', alignItems: 'right', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                                <h5 style={{ textAlign: 'right' }}>{verse.verse_number}       :       {verse.surah_name_arabic}</h5>
+                                <hr style={{ width: '100%' }} />
+                                <h4 style={{ textAlign: 'right' }}>{verse.arabic}</h4>
+                                <br />
+                                <h5 style={{ textAlign: 'right' }}>{verse.english}</h5>
+                                <button style={{backgroundColor: 'transparent'}} onClick={() => toggleLike(verse.verse_number, verse.surah_number)}>
+                                    {<FaHeart style={{ color: 'red' , backgroundColor: 'transparent'}} />}
+                                </button>
+                                <button onClick={() => navigate(`/quran/${verse.surah_number}`)}>
+                                    Go to Surah
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))}
-
+            ) : (
+                <div className="empty-state">
+                    <p>No liked verses yet</p>
+                </div>
+            )}
         </div>
     )
 }

@@ -1,0 +1,67 @@
+.liked-verses-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.liked-verses-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #2c3e50;
+    margin: 2rem 0;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.liked-verse-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.liked-verse-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.verse-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.surah-name {
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.unlike-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.unlike-button:hover {
+    transform: scale(1.2);
+}
+
+.unlike-button svg {
+    color: #e74c3c;
+    transition: transform 0.3s ease;
+}
+
+.unlike-button:hover svg {
+    transform: scale(1.1);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+    animation: fadeIn 0.8s ease-out;
+}

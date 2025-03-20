@@ -243,6 +243,12 @@ app.get('/api/likes/get/:username', async (req, res) => {
     }
 });
 
+app.get('/api/hadithbooks/get', async (req, res) => {
+  const result = await performQuery('SELECT * FROM Hadith_Books');
+  res.json(result);
+});
+
+
 app.listen(backendPort, () => {
     console.log(`Server is running on port ${backendPort}`);
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/Quran.css';
+import './css/SharedAnimations.css';
 import Header from './Header';
 import { useState } from 'react';
 import axios from 'axios';
@@ -8,11 +9,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import {Helmet} from 'react-helmet';
+import { Switch } from '@mui/material';
 
 const Quran =   () => {
     const [likedSurahs, setLikedSurahs] = useState(new Set());
     const username = window.localStorage.getItem('username');
     const [surah, setSurah] = useState([]);
+    const [toggle, setToggle] = useState(false);
     
     const getlikes = async () => {
         try {
@@ -63,7 +66,11 @@ const Quran =   () => {
         }
     };
     
-    
+    const handletoggle = () => {
+        setToggle((prevToggle) => {
+            return !prevToggle;
+        });
+    };
 
 
     useEffect(() => {
@@ -87,14 +94,25 @@ const Quran =   () => {
             </Helmet>
             <Header />
             {username ? (
-            <div className="quran-container" style={{ marginTop: '100px' }}>
-                <h1 className='text-center' style={{ fontSize: '40px', fontWeight: 'bold' }}>القرآن الكريم</h1>
-                <div className="surah-list" style={{ marginTop: '25px' }}>   
-                    {surah.map(surah => (
-                        <div key={surah.surah_number} className='container' onClick={() => navigate(`/quran/${surah.surah_number}`)} style={{ textAlign: 'right', flexDirection: 'column', flexGrow: 1, cursor:'pointer'}}>
-                            <div className="surah-container">
+            <div className="quran-container fade-in">
+                <h1 className="quran-title">القرآن الكريم</h1>
+                <hr />
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', marginTop: '40px'}}>
+                    <Switch defaultChecked={toggle} onChange={()=> handletoggle() } />
+                    <label style={{textAlign: 'center'}}>Liked Surahs</label>
+                </div>
+                {toggle ? (
+                    <div>
+                        <h1 style={{textAlign: 'center', marginBottom: '2rem'}}>Liked Surahs</h1>
+                        {surah.map((surah, index) => (
+                            likedSurahs.has(surah.surah_number) ? (
+                            <div 
+                                key={surah.surah_number} 
+                                className="surah-container"
+                                style={{animationDelay: `${index * 0.1}s`}}
+                                onClick={() => navigate(`/quran/${surah.surah_number}`)}
+                            >
                                 <div className="surah-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <bdi className="surah-number-name h3">{surah.surah_number} - {surah.surah_name_arabic} </bdi>
                                     <button
                                         style={{ backgroundColor: 'transparent', border: 'none', marginRight: '10px' }}
                                         onClick={(e) => {
@@ -108,6 +126,7 @@ const Quran =   () => {
                                             <FaRegHeart size={30} />
                                         )}
                                     </button>
+                                    <bdi className="surah-number-name h3">{surah.surah_number} - {surah.surah_name_arabic} </bdi>
                                 </div>
                                 <hr />
                                 <div className="surah-details h3" style={{ textAlign: 'right' }}>
@@ -115,9 +134,43 @@ const Quran =   () => {
                                     <p className="surah-verses" style={{ marginTop: '30px' }}>Verses = {surah.verses_amount}</p>
                                 </div>
                             </div>
+                            ):(<></>)
+                        ))}
+                    </div>
+                ) : (
+                <div className="surah-list">   
+                    {surah.map((surah, index) => (
+                        <div 
+                            key={surah.surah_number} 
+                            className="surah-container"
+                            style={{animationDelay: `${index * 0.1}s`}}
+                            onClick={() => navigate(`/quran/${surah.surah_number}`)}
+                        >
+                            <div className="surah-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <bdi className="surah-number-name h3">{surah.surah_number} - {surah.surah_name_arabic} </bdi>
+                                <button
+                                    style={{ backgroundColor: 'transparent', border: 'none', marginRight: '10px' }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleLike(surah.surah_number);
+                                    }}
+                                >
+                                    {likedSurahs.has(surah.surah_number) ? (
+                                        <FaHeart style={{ color: 'red' }} size={30} />
+                                    ) : (
+                                        <FaRegHeart size={30} />
+                                    )}
+                                </button>
+                            </div>
+                            <hr />
+                            <div className="surah-details h3" style={{ textAlign: 'right' }}>
+                                <span className="surah-english-name" >{surah.surah_name_english}</span>
+                                <p className="surah-verses" style={{ marginTop: '30px' }}>Verses = {surah.verses_amount}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
+                )}
             </div>
             ) : (
                 <div>
