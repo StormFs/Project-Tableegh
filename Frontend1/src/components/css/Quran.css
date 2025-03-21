@@ -45,35 +45,41 @@
 }
 
 .quran-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
     padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin-top: 60px;
 }
 
 .quran-title {
-    font-size: 3rem;
     text-align: center;
+    font-size: 2.5rem;
     color: #2c3e50;
     margin-bottom: 2rem;
     animation: fadeIn 0.8s ease-out;
-    margin-top: 100px;
 }
 
 .surah-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    direction: rtl;
 }
 
 .surah-container {
     background: white;
     border-radius: 15px;
-    padding: 1.5rem;
+    padding: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
-    animation: fadeIn 0.5s ease-out;
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .surah-container:hover {
@@ -83,25 +89,76 @@
 
 .surah-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 1rem;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 1rem;
 }
 
 .surah-number-name {
     font-size: 1.5rem;
     color: #2c3e50;
+    margin-bottom: 0.5rem;
 }
 
 .surah-english-name {
     color: #7f8c8d;
     font-size: 1.1rem;
+    display: block;
+}
+
+.surah-details {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    text-align: right;
+    padding: 0 5px;
+}
+
+.surah-container:hover .surah-details {
+    max-height: 100px;
+    opacity: 1;
+    padding: 10px 5px;
 }
 
 .surah-verses {
     color: #95a5a6;
-    font-size: 0.9rem;
     margin-top: 0.5rem;
+}
+
+button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 2;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .surah-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .surah-container {
+        margin-bottom: 1rem;
+    }
 }
 
 .like-button {
