@@ -12,6 +12,9 @@ import Profile from "./components/Profile";
 const domain = "project-tableegh.firebaseapp.com"
 const clientId = "1:679343328871:web:d43b469e370e56d5078ec2"
 import Hadith from "./components/Hadith";
+import HadithChapters from "./components/HadithChapters"
+import Chapters from "./components/Chapters"
+import LikedHadiths from "./components/Likedhadith"
 
 
 export default function App() {
@@ -30,9 +33,13 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/quran" element={<Quran />} />
         <Route path="/hadith" element={<Hadith />} />
+        <Route path="/hadith/:book_id/chapters" element={<HadithChapters />} />
+        <Route path="/hadith/:book_id/chapters/:chapter" element={<Chapters />} />
         <Route path="/quran/:surah_number" element={<Surah />} />
         <Route path="/liked-verses" element={<LikedVerses />} />
+        <Route path="/liked-hadith" element={<LikedHadiths />} />
         <Route path="/profile/:username" element={<Profile />} />
+
       </Routes>
       </UserProvider>
     </BrowserRouter>

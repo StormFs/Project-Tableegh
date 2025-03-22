@@ -220,6 +220,38 @@ app.get('/api/surah/get/name/:surah_number', async (req, res) => {
   );
   res.json(result);
 });
+
+app.post('/api/liked-hadiths', async (req, res) => {
+  const { username, hadith_id, book_id } = req.body;
+  console.log(username, hadith_id, book_id);
+  const user_id = await performQuery(
+    'SELECT user_id FROM Users WHERE username = @param0',
+    [username]
+  );
+  const check_like = await performQuery(
+    'SELECT * FROM Liked_Hadith WHERE hadith_id = @param0 AND user_id = @param1 AND book_id = @param2',
+    [hadith_id, user_id[0].user_id, book_id]
+  );
+  if (check_like.length > 0) {
+    await performQuery(
+      'DELETE FROM Liked_Hadith WHERE hadith_id = @param0 AND user_id = @param1 AND book_id = @param2',
+      [hadith_id, user_id[0].user_id, book_id]
+    );
+    res.json({ success: true, message: 'Liked hadith removed successfully' });
+  }
+  else{
+    const result = await performQuery(
+      'INSERT INTO Liked_Hadith (hadith_id, user_id, book_id) OUTPUT Inserted.user_id VALUES (@param0, @param1, @param2)',
+      [hadith_id, user_id[0].user_id, book_id]
+    );
+    if (result.length > 0) {
+      res.json({ success: true, message: 'Liked hadith added successfully' });
+    } else {
+      res.json({ success: false, message: 'Failed to add like' });
+    }
+  }
+});
+
 app.get('/api/likes/get/:username', async (req, res) => {
     const { username } = req.params;
     try {
@@ -246,6 +278,61 @@ app.get('/api/likes/get/:username', async (req, res) => {
 app.get('/api/hadithbooks/get', async (req, res) => {
   const result = await performQuery('SELECT * FROM Hadith_Book');
   res.json(result);
+});
+
+app.get('/api/hadith/:book_id/chapters', async (req, res) => {
+  const { book_id } = req.params; 
+  const result = await performQuery('SELECT DISTINCT chapter,sanad FROM Hadith WHERE book_id = @param0', [book_id]);
+  res.json(result);
+});
+
+app.get('/api/hadith/:book_id/chapters/:chapter', async (req, res) => {
+  var { book_id, chapter } = req.params
+  const result = await performQuery('SELECT * FROM Hadith WHERE book_id = @param0 AND chapter = @param1', [book_id, chapter]);
+  res.json(result);
+});
+
+app.get('/api/liked-hadiths/:username/:book_id/:hadith_id', async (req, res) => {
+  const { username, book_id, hadith_id } = req.params;
+  const user_id = await performQuery('SELECT user_id FROM Users WHERE username = @param0', [username]);
+  if (user_id.length > 0) {
+    const result = await performQuery('SELECT * FROM Liked_Hadith WHERE hadith_id = @param0 AND user_id = @param1 AND book_id = @param2', [hadith_id, user_id[0].user_id, book_id]);
+    res.json(result);
+  } else {
+    res.json({ success: false, message: 'User not found' });
+  }
+});
+
+app.get('/api/liked-hadiths/:username', async (req, res) => {
+  const { username } = req.params;
+  const user_id = await performQuery('SELECT user_id FROM Users WHERE username = @param0', [username]);
+  if (user_id.length > 0) {
+    const result = await performQuery('SELECT * FROM Liked_Hadith WHERE user_id = @param0', [user_id[0].user_id]);
+    res.json(result);
+  } else {
+    res.json({ success: false, message: 'User not found' });
+  }
+});
+
+app.get('/api/liked-hadith/:username', async (req, res) => {
+  const { username } = req.params;
+  const user_id = await performQuery('SELECT user_id FROM Users WHERE username = @param0', [username]); 
+  if (user_id.length > 0) {
+    const result = await performQuery('SELECT Hadith.book_id, Hadith.chapter, Hadith.hadith_id, Hadith.arabic, Hadith.english, Hadith.grade, Hadith.sanad FROM Liked_Hadith join Hadith on Liked_Hadith.hadith_id = Hadith.hadith_id and Liked_Hadith.book_id = Hadith.book_id WHERE user_id = @param0', [user_id[0].user_id]);
+    res.json(result);
+  } else {
+    res.json({ success: false, message: 'User not found' });
+  }
+});
+
+
+app.delete('/api/liked-hadiths/:username/:book_id/:hadith_id', async (req, res) => {
+  const { username, book_id, hadith_id } = req.params;
+  const user_id = await performQuery('SELECT user_id FROM Users WHERE username = @param0', [username]);
+  if (user_id.length > 0) {
+    await performQuery('DELETE FROM Liked_Hadith WHERE hadith_id = @param0 AND user_id = @param1 AND book_id = @param2', [hadith_id, user_id[0].user_id, book_id]);
+    res.json({ success: true, message: 'Liked hadith removed successfully' });
+  }
 });
 
 

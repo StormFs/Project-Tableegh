@@ -5,8 +5,10 @@ import { Helmet } from 'react-helmet';
 import Header from './Header';
 import Footer from './Footer';
 import './css/Hadith.css';
+import { useNavigate } from 'react-router-dom';
 
 const Hadith = () => {
+    const navigate = useNavigate();
     const [hadith, setHadith] = useState([]);
     const username = window.localStorage.getItem('username');
 
@@ -22,6 +24,10 @@ const Hadith = () => {
         fetchHadith();
     }, []);
 
+    const handleHadithClick = (book_id) => {
+        navigate(`/hadith/${book_id}/chapters`);
+    };
+
     return (
         <div className="hadith-page">
             <Helmet>
@@ -31,27 +37,31 @@ const Hadith = () => {
             <div className="hadith-content" style={{ marginTop: '100px' }}>
                 <h1 className="page-title">Hadith Collection</h1>
                 <div className="hadith-grid">
-                    {hadith.map((hadith) => (
-                        hadith.numHadith > 0 ? (
+                    {hadith.map((hadithBook) => (
+                        hadithBook.numHadith > 0 ? (
                         <div
-                            key={hadith.hadith_id} 
+                            key={hadithBook.book_id} 
                             className="hadith-card"
+                            onClick={() => {
+                                handleHadithClick(hadithBook.book_id);
+                            }}
+                            style={{cursor: 'pointer'}}
                         >
                             <div className="hadith-header">
                                 <h3 className="hadith-title">
-                                    {hadith.book_name_english}
+                                    {hadithBook.book_name_english}
                                 </h3>
                                 <span className="hadith-chapters">
-                                    Chapters: {hadith.Chapters}
+                                    Chapters: {hadithBook.Chapters}
                                 </span>
                             </div>
                             <div className="hadith-body">
                                 <p className="hadith-count">
-                                    Hadiths: {hadith.numHadith}
+                                    Hadiths: {hadithBook.numHadith}
                                 </p>
                             </div>
                         </div>
-                        ):(<></>)
+                        ) : (<React.Fragment key={hadithBook.book_id}></React.Fragment>)
                     ))}
                 </div>
             </div>
