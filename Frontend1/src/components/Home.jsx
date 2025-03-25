@@ -6,6 +6,7 @@ import quran from './assets/quran.jpeg';
 import hadith from './assets/hadith.jpeg';
 import Footer from './Footer';  
 import { Helmet } from 'react-helmet';
+import RandomAyah from './RandomAyah';
 
 const Home = () => {
     const username = window.localStorage.getItem('username');
@@ -43,6 +44,7 @@ const Home = () => {
                 <button className="btn btn-outline-secondary" onClick={handleHadith}>Go to Hadith</button>
             </div>
         </div>
+        <RandomAyah />
         </div>
         ) : (
             <div className="content" style={{ marginTop: '100px' }}>

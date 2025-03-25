@@ -49,6 +49,19 @@ app.get('/api/surah/get/name/:surah_number', async (req, res) => {
   }
 });
 
+
+app.get('/api/randomayah', async (req, res) => {
+  const surah = Math.floor(Math.random() * 114) + 1;
+  const ayah = Math.floor(Math.random() * 6) + 1;
+  console.log(surah, ayah);
+  const result = await performQuery('SELECT * FROM Verse v join Surah s on v.surah_number = s.surah_number  WHERE v.surah_number = @param0 AND v.verse_number = @param1', [surah, ayah]);
+  if(result.length > 0){
+    res.json({verse: result[0]});
+  }else{
+    res.json({verse: 'Verse not found'});
+  }
+});
+
 app.get('/api/likedverses/:username', async (req, res) => {
     const { username } = req.params;
     try {
@@ -59,7 +72,7 @@ app.get('/api/likedverses/:username', async (req, res) => {
 
         if (user_id.length > 0) {
             const likedVerses = await performQuery( 
-                'SELECT v.*, s.surah_name_arabic FROM (Liked_Verse lv JOIN Verse v ON lv.surah_number = v.surah_number AND lv.verse_number = v.verse_number) JOIN Surah s ON v.surah_number = s.surah_number WHERE lv.user_id = @param0',
+                'SELECT v.*, s.surah_name_arabic FROM (Liked_Verse lv JOIN Verse v ON lv.surah_number = v.surah_number AND lv.verse_number = v.verse_number) JOIN Surah s ON v.surah_number = s.surah_number WHERE lv.user_id = @param0 ORDER BY v.verse_number',
                 [user_id[0].user_id]
             );
             res.json(likedVerses); 

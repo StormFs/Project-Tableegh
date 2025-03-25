@@ -8,12 +8,14 @@ import Footer from './Footer';
 import './css/SharedAnimations.css';
 import './css/HadithChapters.css';
 import { useNavigate } from 'react-router-dom';
+import LoginPrompt from './loginprompt';
 
 const HadithChapters = () => {
     const { book_id } = useParams();
     const [chapters, setChapters] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const username = window.localStorage.getItem('username');
     const navigate = useNavigate();
     useEffect(() => {
         const fetchChapters = async () => {
@@ -40,10 +42,11 @@ const HadithChapters = () => {
                 <title>Hadith Chapters</title>
             </Helmet>
             <Header />
-            <div className="hadith-chapters-container">
-                <h1 style={{textAlign: 'center', marginTop: '100px', marginBottom: '50px'}}>Hadith Chapters</h1>
-                
-                {loading && (
+            {username ? (
+                <div className="hadith-chapters-container">
+                    <h1 style={{textAlign: 'center', marginTop: '100px', marginBottom: '50px'}}>Hadith Chapters</h1>
+                    
+                    {loading && (
                     <div className="loading-container">
                         <div className="loader"></div>
                     </div>
@@ -77,6 +80,9 @@ const HadithChapters = () => {
                     ))}
                 </div>
             </div>
+            ) : (
+                <LoginPrompt />
+            )}
             <Footer />
         </div>
     );

@@ -6,6 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import './css/Hadith.css';
 import { useNavigate } from 'react-router-dom';
+import LoginPrompt from './loginprompt';
 
 const Hadith = () => {
     const navigate = useNavigate();
@@ -34,11 +35,12 @@ const Hadith = () => {
                 <title>Hadiths</title>
             </Helmet>
             <Header />
-            <div className="hadith-content" style={{ marginTop: '100px' }}>
-                <h1 className="page-title">Hadith Collection</h1>
-                <div className="hadith-grid">
-                    {hadith.map((hadithBook) => (
-                        hadithBook.numHadith > 0 ? (
+            {username ? (
+                <div className="hadith-content" style={{ marginTop: '100px' }}>
+                    <h1 className="page-title">Hadith Collection</h1>
+                    <div className="hadith-grid">
+                        {hadith.map((hadithBook) => (
+                            hadithBook.numHadith > 0 ? (
                         <div
                             key={hadithBook.book_id} 
                             className="hadith-card"
@@ -65,6 +67,9 @@ const Hadith = () => {
                     ))}
                 </div>
             </div>
+            ) : (
+                <LoginPrompt />
+            )}
             <Footer />
         </div>
     );
