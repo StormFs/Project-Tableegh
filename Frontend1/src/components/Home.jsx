@@ -7,10 +7,10 @@ import hadith from './assets/hadith.jpeg';
 import Footer from './Footer';  
 import { Helmet } from 'react-helmet';
 import RandomAyah from './RandomAyah';
+import LoginPrompt from './loginprompt';
 
 const Home = () => {
     const username = window.localStorage.getItem('username');
-
     const navigate = useNavigate();
     const handleQuran = () => {
         navigate('/quran');
@@ -23,7 +23,6 @@ const Home = () => {
             <Helmet>
                 <title>Tableegh - Home</title>
             </Helmet>
-            
             <Header />
             {username ? (
             <div className="content" style={{ marginTop: '100px' }}>
@@ -47,10 +46,7 @@ const Home = () => {
         <RandomAyah />
         </div>
         ) : (
-            <div className="content" style={{ marginTop: '100px' }}>
-                <h1 style={{ textAlign: 'center' }}>Please login to continue</h1>
-                <button style={{ marginTop: '20px', marginLeft: '45%' }} className="btn btn-outline-secondary" onClick={() => navigate('/login')}>Login</button>
-            </div>
+            <LoginPrompt />
         )}
         <Footer />
             </div>

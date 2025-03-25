@@ -102,11 +102,14 @@ const Surah = () => {
                 <title>Tableegh - Surah {surah_number}</title>
             </Helmet>
             <Header />
-            <h1 className="surah-title" style={{marginTop: '100px'}}>{name}</h1>
-            <hr />
-            <div className="verses-container">
-                {surah.map((verse, index) => (
-                    <div 
+            {username ? (
+                <div style={{ marginTop: '100px' }}>
+                <div className="surah-content">
+                    <h1 className="surah-title">{name}</h1>
+                    <hr />
+                    <div className="verses-container">
+                        {surah.map((verse, index) => (
+                            <div 
                         key={verse.verse_number} 
                         className="verse-container"
                         style={{animationDelay: `${index * 0.1}s`}}
@@ -125,6 +128,11 @@ const Surah = () => {
                     </div>
                 ))}
             </div>
+            </div>
+            </div>
+            ) : (
+                <LoginPrompt />
+            )}
             <Footer />
         </div>
     );

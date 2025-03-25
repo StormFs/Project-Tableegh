@@ -1,14 +1,13 @@
 .verses-container {
+    max-width: 1200px;
+    margin: 0 auto;
     position: relative; 
     text-align: left;
-    margin-right: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .verse-containers {
+    max-width: 1200px;
+    margin: 0 auto;
     margin-bottom: 20px;
     text-align: right;
     margin-right: 20px;
@@ -27,6 +26,7 @@
 }
 
 .surah-page-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
     margin: 0 auto;
     padding: 2rem;
 }
