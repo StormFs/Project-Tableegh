@@ -8,6 +8,8 @@ import { Helmet } from 'react-helmet';
 import { Switch } from '@mui/material';
 import axios from 'axios';
 import Footer from './Footer';
+import SearchBar from './SearchBar';
+
 
 const Quran = () => {
     const [likedSurahs, setLikedSurahs] = useState(new Set());
@@ -90,7 +92,11 @@ const Quran = () => {
             </Helmet>
             <Header />
             {username ? (
+                
                 <div className="quran-container fade-in">
+                    <div className="search-container">
+                        <SearchBar />
+                    </div>
                     <h1 className="quran-title">القرآن الكريم</h1>
                     <hr />
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', marginTop: '40px'}}>

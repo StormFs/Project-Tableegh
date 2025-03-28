@@ -15,6 +15,7 @@ import Hadith from "./components/Hadith";
 import HadithChapters from "./components/HadithChapters"
 import Chapters from "./components/Chapters"
 import LikedHadiths from "./components/Likedhadith"
+import Searched from "./components/Searched";
 
 
 export default function App() {
@@ -39,7 +40,7 @@ export default function App() {
         <Route path="/liked-verses" element={<LikedVerses />} />
         <Route path="/liked-hadith" element={<LikedHadiths />} />
         <Route path="/profile/:username" element={<Profile />} />
-
+        <Route path="/searched/:search" element={<Searched />} />
       </Routes>
       </UserProvider>
     </BrowserRouter>

@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header';
-import Footer from './Footer';
 import './css/SharedAnimations.css';
 import './css/RandomAyah.css';
 
-
 const RandomAyah = () => {
     const [random, setRandom] = useState([]);
-
     useEffect(() => {
         const fetchRandomAyah = async () => {
             try {
@@ -27,12 +22,8 @@ const RandomAyah = () => {
         };
         fetchRandomAyah();
     }, []);
-
     return (
         <div>
-            <Helmet>
-                <title>Tableegh - Random Ayah</title>
-            </Helmet>
             <Header />
             <div className="content" style={{ marginTop: '100px' }}>
                 <h1 style={{ textAlign: 'center' }}>Ayah of the Day</h1>
@@ -43,7 +34,6 @@ const RandomAyah = () => {
                     <p style={{ textAlign: 'center' }}>{random.english}</p>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };

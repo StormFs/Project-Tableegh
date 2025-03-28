@@ -1,3 +1,18 @@
+@font-face {
+    font-family: Al Qalam Indopak Arabic Font;
+    src: url('./fonts/Al Qalam Indopak Arabic Font.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: Traditional Arabic;
+    src: url('./fonts/Traditional Arabic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: Al Qalam Indopak Arabic Font;
+    src: url('./fonts/Al Qalam Indopak Arabic Font.ttf') format('truetype');
+}
+
 .verses-container {
     max-width: 1200px;
     margin: 0 auto;

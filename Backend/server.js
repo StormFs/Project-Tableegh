@@ -3,11 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const sql = require('mssql');
 const CryptoJS = require('crypto-js');
-
 const app = express();
-
 app.use(cors());
-
 app.use(bodyParser.json());
 
 const corsOptions = {
@@ -42,7 +39,7 @@ app.get('/api/surah', async (req, res) => {
 app.get('/api/surah/get/name/:surah_number', async (req, res) => {
   const { surah_number } = req.params;
   const result = await performQuery('SELECT surah_name_arabic FROM Surah WHERE surah_number = @param0', [surah_number]);
-  if(result.length > 0){
+  if(result.length > 0){                            
     res.json({name: result[0].surah_name_arabic});
   }else{
     res.json({success: false, message: 'Surah not found'});
@@ -60,6 +57,13 @@ app.get('/api/randomayah', async (req, res) => {
   }else{
     res.json({verse: 'Verse not found'});
   }
+});
+
+app.get('/api/search/:search', async (req, res) => {
+  const { search } = req.params;
+  const lowerCaseSearch = search.toLowerCase();
+  const result = await performQuery('SELECT * FROM Verse WHERE English LIKE @param0', [`%${lowerCaseSearch}%`]);
+  res.json(result);
 });
 
 app.get('/api/likedverses/:username', async (req, res) => {

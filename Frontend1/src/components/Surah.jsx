@@ -88,13 +88,6 @@ const Surah = () => {
     
     
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }   
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
 
     return (
         <div className="surah-page-container fade-in">
@@ -104,6 +97,11 @@ const Surah = () => {
             <Header />
             {username ? (
                 <div style={{ marginTop: '100px' }}>
+                    {loading && (
+                    <div className="loading-container">
+                        <div className="loader"></div>
+                    </div>
+                )}
                 <div className="surah-content">
                     <h1 className="surah-title">{name}</h1>
                     <hr />
@@ -118,8 +116,8 @@ const Surah = () => {
                             <button style={{backgroundColor: 'transparent', border: 'none', marginRight: '10px'}} onClick={() => toggleLike(verse.verse_number)}>
                                 {likedVerses.has(verse.verse_number) ? <FaHeart style={{color: 'red'}} size={30} /> : <FaRegHeart size={30} />}
                             </button>
-                            <bdi className="verse-number" style={{ fontSize: `${fontSize}px`, display: 'flex', alignItems: 'center' }}>
-                                {verse.verse_number} - {verse.arabic}
+                            <bdi className="verse-number" style={{ fontSize: `${fontSize}px`, display: 'flex', alignItems: 'center', fontFamily: 'Al Qalam Indopak Arabic Font' }}>
+                                {verse.verse_number} - {verse.arabic} 
                             </bdi>
                         </div>
                         <hr />
