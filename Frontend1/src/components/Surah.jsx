@@ -72,8 +72,6 @@ const Surah = () => {
             return updatedLikedVerses;
         });
     };
-    
-
     const handleLike = async (verseNumber) => {
         try {
             const response = await axios.post(`http://localhost:5143/api/likes/add`, {
@@ -81,14 +79,11 @@ const Surah = () => {
                 verse_number: verseNumber,
                 surah_number: surah_number
             });
+            console.log('Like added:', response.data);
         } catch (error) {
             console.error('Error adding like:', error);
         }
     };
-    
-    
-
-
     return (
         <div className="surah-page-container fade-in">
             <Helmet>
@@ -137,6 +132,5 @@ const Surah = () => {
 };
 
 export default Surah;
-
 
 

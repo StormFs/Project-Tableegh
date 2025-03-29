@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
-import Home from "./components/home";
+import Home from "./components/Home";
 import Quran from "./components/Quran";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Surah from "./components/Surah";

@@ -8,10 +8,17 @@
     src: url('./fonts/Traditional Arabic.ttf') format('truetype');
 }
 
+
 @font-face {
     font-family: Al Qalam Indopak Arabic Font;
     src: url('./fonts/Al Qalam Indopak Arabic Font.ttf') format('truetype');
 }
+
+@font-face {
+    font-family: Tajweed;
+    src: url('./fonts/p2.woff2') format('woff2');
+}
+
 
 .verses-container {
     max-width: 1200px;
