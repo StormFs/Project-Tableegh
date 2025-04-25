@@ -36,6 +36,8 @@ app.get('/api/surah', async (req, res) => {
   res.json({surah_number, surah_name_arabic, surah_name_english, verses_amount} = result);
 });
 
+
+
 app.get('/api/surah/get/name/:surah_number', async (req, res) => {
   const { surah_number } = req.params;
   const result = await performQuery('SELECT surah_name_arabic FROM Surah WHERE surah_number = @param0', [surah_number]);
@@ -45,8 +47,6 @@ app.get('/api/surah/get/name/:surah_number', async (req, res) => {
     res.json({success: false, message: 'Surah not found'});
   }
 });
-
-
 app.get('/api/randomayah', async (req, res) => {
   const surah = Math.floor(Math.random() * 114) + 1;
   const ayah = Math.floor(Math.random() * 6) + 1;
@@ -342,7 +342,6 @@ app.get('/api/liked-hadith/:username', async (req, res) => {
   }
 });
 
-
 app.delete('/api/liked-hadiths/:username/:book_id/:hadith_id', async (req, res) => {
   const { username, book_id, hadith_id } = req.params;
   const user_id = await performQuery('SELECT user_id FROM Users WHERE username = @param0', [username]);
@@ -352,10 +351,11 @@ app.delete('/api/liked-hadiths/:username/:book_id/:hadith_id', async (req, res) 
   }
 });
 
-
 app.listen(backendPort, () => {
     console.log(`Server is running on port ${backendPort}`);
 });
+
+
 
 let pool;
 async function performQuery(query, params = []) {
