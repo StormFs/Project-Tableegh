@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import './css/Home.css';
-import quran from './assets/quran.jpeg';
+import quran from './assets/quran1.png';
 import hadith from './assets/hadith.jpeg';
 import Footer from './Footer';  
 import { Helmet } from 'react-helmet';
@@ -19,37 +19,131 @@ const Home = () => {
         navigate('/hadith');
     }
     return (
-        <div>
+        <div className="home-container">
             <Helmet>
                 <title>Tableegh - Home</title>
             </Helmet>
             <Header />
             {username ? (
-            <div className="content" style={{ marginTop: '100px' }}>
-                <h1 style={{ textAlign: 'center' }}>Welcome to Tableegh - {username}</h1>
-                <div className="section">
-                    <img src={quran} alt="Quran Book" />
-                    <div>
-                        <h2 style={{ textAlign: 'center' }}>The Importance of Reciting the Quran</h2>
-                <p style={{ textAlign: 'center' }}>The Quran is the holy book of Islam, believed to be the word of God as revealed to the Prophet Muhammad. Reciting the Quran is a fundamental practice in Islam, providing spiritual guidance, wisdom, and a sense of peace. It is considered an act of worship and a means to draw closer to Allah. The Quran contains teachings that cover all aspects of life, including morality, law, and personal conduct. Regular recitation helps Muslims to internalize these teachings and apply them in their daily lives. Moreover, it is believed that the Quran has a healing effect on the soul and body, offering comfort and solace in times of distress.</p>
-                <button className="btn btn-outline-secondary" onClick={handleQuran}>Go to Quran</button>
-            </div>  
-            </div>
-            <div className="section hadith">
-                <img src={hadith} alt="Hadith Book" />
-            <div>
-                <h2 style={{ textAlign: 'center' }}>The Significance of Hadith</h2>
-                <p style={{ textAlign: 'center' }}>Hadith refers to the sayings, actions, and approvals of the Prophet Muhammad. It is the second most important source of guidance in Islam after the Quran. The Hadith provides context and elaboration on the Quranic verses, helping Muslims to understand and implement the teachings of Islam in their lives. It covers various aspects of life, including worship, ethics, social interactions, and legal matters. Studying Hadith is essential for gaining a comprehensive understanding of the Islamic faith and for following the example set by the Prophet. The Hadith also serves as a source of inspiration and motivation, encouraging Muslims to strive for excellence in their faith and conduct.</p>
-                <button className="btn btn-outline-secondary" onClick={handleHadith}>Go to Hadith</button>
-            </div>
+                <div className="content" style={{ 
+                    maxWidth: '1000px',
+                    margin: '80px auto 0',
+                    padding: '0 20px'
+                }}>
+                    <h1 style={{ 
+                        textAlign: 'center',
+                        color: '#333',
+                        fontSize: '2rem',
+                        marginBottom: '40px'
+                    }}>Welcome, {username}</h1>
+                    
+                    <div className="section" style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '20px',
+                        marginBottom: '40px',
+                        padding: '20px',
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '8px'
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <img src={quran} alt="Quran Book" style={{
+                                width: '200px',
+                                height: 'auto',
+                                borderRadius: '4px'
+                            }} />
+                        </div>
+                        <div>
+                            <h2 style={{ 
+                                textAlign: 'center',
+                                color: '#333',
+                                fontSize: '1.5rem',
+                                marginBottom: '15px'
+                            }}>The Quran</h2>
+                            <p style={{ 
+                                textAlign: 'center',
+                                lineHeight: '1.6',
+                                color: '#555',
+                                marginBottom: '20px'
+                            }}>
+                                The holy book of Islam, providing guidance and wisdom for all aspects of life. Recite, reflect, and find peace in its verses.
+                            </p>
+                            <div style={{ textAlign: 'center' }}>
+                                <button 
+                                    onClick={handleQuran}
+                                    style={{
+                                        padding: '10px 25px',
+                                        fontSize: '1rem',
+                                        backgroundColor: '#4a6baf',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Read Quran
+                                </button>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div className="section hadith" style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '20px',
+                        marginBottom: '40px',
+                        padding: '20px',
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '8px'
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <img src={hadith} alt="Hadith Book" style={{
+                                width: '200px',
+                                height: 'auto',
+                                borderRadius: '4px'
+                            }} />
+                        </div>
+                        <div>
+                            <h2 style={{ 
+                                textAlign: 'center',
+                                color: '#333',
+                                fontSize: '1.5rem',
+                                marginBottom: '15px'
+                            }}>The Hadith</h2>
+                            <p style={{ 
+                                textAlign: 'center',
+                                lineHeight: '1.6',
+                                color: '#555',
+                                marginBottom: '20px'
+                            }}>
+                                The teachings and practices of Prophet Muhammad (PBUH), offering practical guidance for daily life and spiritual growth.
+                            </p>
+                            <div style={{ textAlign: 'center' }}>
+                                <button 
+                                    onClick={handleHadith}
+                                    style={{
+                                        padding: '10px 25px',
+                                        fontSize: '1rem',
+                                        backgroundColor: '#4a6baf',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Read Hadith
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <RandomAyah />
+                </div>
+            ) : (
+                <LoginPrompt />
+            )}
+            <Footer />
         </div>
-        <RandomAyah />
-        </div>
-        ) : (
-            <LoginPrompt />
-        )}
-        <Footer />
-            </div>
     );
 };
 

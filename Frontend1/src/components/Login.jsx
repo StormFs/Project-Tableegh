@@ -183,7 +183,24 @@ const Login = () => {
                     <input autoComplete='current-password' type="password" id="password" name="password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} placeholder='Enter your password' required />
                     {passwordError && <div className="error" style={{color: 'red', paddingBottom: '20px'}}>{passwordError}</div>}
                     <label htmlFor="email">Email</label>
-                    <input autoComplete='email' type="email" id="email" name="email" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} placeholder='Enter your email' required />
+                    <input 
+                        autoComplete='email' type="email" 
+                        id="email" 
+                        name="email" 
+                        value={signupEmail} 
+                        onChange={(e) => {
+                            const email = e.target.value;
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(email) && email !== '') {
+                                setEmailExistsError('Please enter a valid email address');
+                            } else {
+                                setEmailExistsError('');
+                            }
+                            setSignupEmail(email);
+                        }} 
+                        placeholder='Enter your email' 
+                        required 
+                    />
                     {emailExistsError && <div className="error" style={{color: 'red', paddingBottom: '20px'}}>{emailExistsError}</div>}
                 </form>
                 ) : (

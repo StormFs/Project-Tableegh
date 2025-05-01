@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import Navbar from './components/Navbar';
-import Home from './components/home';
+import Home from './components/Home';
 import LoginButton from './components/LoginButton';
 
 const App = () => {

@@ -50,7 +50,6 @@ app.get('/api/surah/get/name/:surah_number', async (req, res) => {
 app.get('/api/randomayah', async (req, res) => {
   const surah = Math.floor(Math.random() * 114) + 1;
   const ayah = Math.floor(Math.random() * 6) + 1;
-  console.log(surah, ayah);
   const result = await performQuery('SELECT * FROM Verse v join Surah s on v.surah_number = s.surah_number  WHERE v.surah_number = @param0 AND v.verse_number = @param1', [surah, ayah]);
   if(result.length > 0){
     res.json({verse: result[0]});
@@ -62,7 +61,7 @@ app.get('/api/randomayah', async (req, res) => {
 app.get('/api/search/:search', async (req, res) => {
   const { search } = req.params;
   const lowerCaseSearch = search.toLowerCase();
-  const result = await performQuery('SELECT * FROM Verse WHERE English LIKE @param0', [`%${lowerCaseSearch}%`]);
+  const result = await performQuery('SELECT * FROM Verse V Join Surah S on V.Surah_Number = S.Surah_Number WHERE V.English LIKE @param0', [`%${lowerCaseSearch}%`]);
   res.json(result);
 });
 
@@ -384,7 +383,7 @@ async function performQuery(query, params = []) {
     app.get('/', (req, res) => {
       res.send(`Connected to database: ${databaseName} at port ${sqlPort}`);
     });
-
+    
     app.listen(serverPort, () => {
       console.log(`HTTP server is running at http://localhost:${serverPort}`);
     });
