@@ -39,22 +39,27 @@ const Surah = () => {
     const getlikes = async () => {
         try {
             const response = await axios.get(`http://localhost:5143/api/likes/get/${username}`);
+            console.log('Likes API Response:', response.data);
             if (Array.isArray(response.data)) {
-                const likedVerseNumbers = response.data.map(like => like.verse_number);
-                setLikedVerses(new Set(likedVerseNumbers));
+                const likedVersesSet = new Set(response.data.map(like => `${like.surah_number}:${like.verse_number}`));
+                console.log('Processed Likes Set:', Array.from(likedVersesSet));
+                setLikedVerses(likedVersesSet);
             } else {
                 console.error('Unexpected data format:', response.data);
                 setLikedVerses(new Set());
             }
         } catch (error) {
             console.error('Error fetching likes:', error);
+            setLikedVerses(new Set());
         }
     };
 
     useEffect(() => {
-        getlikes();
-    }, [username]);
-
+        console.log('Component mounted/updated, username:', username, 'surah_number:', surah_number);
+        if (username) {
+            getlikes();
+        }
+    }, [username, surah_number]);
 
     const toggleLike = (verseNumber) => {
         if (!username) {
@@ -64,11 +69,14 @@ const Surah = () => {
         handleLike(verseNumber);
         setLikedVerses((prevLikedVerses) => {
             const updatedLikedVerses = new Set(prevLikedVerses);
-            if (updatedLikedVerses.has(verseNumber)) {
-                updatedLikedVerses.delete(verseNumber);
+            const verseKey = `${surah_number}:${verseNumber}`;
+            console.log('Toggling like for verse:', verseKey);
+            if (updatedLikedVerses.has(verseKey)) {
+                updatedLikedVerses.delete(verseKey);
             } else {
-                updatedLikedVerses.add(verseNumber);
+                updatedLikedVerses.add(verseKey);
             }
+            console.log('Updated likes set:', Array.from(updatedLikedVerses));
             return updatedLikedVerses;
         });
     };
@@ -109,7 +117,7 @@ const Surah = () => {
                     >
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <button style={{backgroundColor: 'transparent', border: 'none', marginRight: '10px'}} onClick={() => toggleLike(verse.verse_number)}>
-                                {likedVerses.has(verse.verse_number) ? <FaHeart style={{color: 'red'}} size={30} /> : <FaRegHeart size={30} />}
+                                {likedVerses.has(`${surah_number}:${verse.verse_number}`) ? <FaHeart style={{color: 'red'}} size={30} /> : <FaRegHeart size={30} />}
                             </button>
                             <bdi className="verse-number" style={{ fontSize: `${fontSize}px`, display: 'flex', alignItems: 'center', fontFamily: 'Al Qalam Indopak Arabic Font' }}>
                                 {verse.verse_number} - {verse.arabic} 

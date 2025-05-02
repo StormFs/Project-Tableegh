@@ -278,7 +278,7 @@ app.get('/api/likes/get/:username', async (req, res) => {
 
         if (user_id.length > 0) {
             const result = await performQuery(
-                'SELECT verse_number FROM Liked_Verse WHERE user_id = @param0',
+                'SELECT surah_number, verse_number FROM Liked_Verse WHERE user_id = @param0',
                 [user_id[0].user_id]
             );
             res.json(result); 
