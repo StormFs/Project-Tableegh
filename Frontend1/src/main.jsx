@@ -16,6 +16,7 @@ import HadithChapters from "./components/HadithChapters"
 import Chapters from "./components/Chapters"
 import LikedHadiths from "./components/Likedhadith"
 import Searched from "./components/Searched";
+import ScrollToTop from "./components/scrolltotop";
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
       }}
     >
     <BrowserRouter>
+    <ScrollToTop />
       <UserProvider>
       <Routes>
         <Route path="/" element={<Home />} />
