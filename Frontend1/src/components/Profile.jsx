@@ -12,7 +12,6 @@ const Profile = () => {
     const [error, setError] = useState(null);
     
     
-    
     return (
         <div>
             <Header />
@@ -20,6 +19,7 @@ const Profile = () => {
                 <title>Profile | {username}</title>
             </Helmet>
             <h1 style={{color: "black",marginTop: "100px", textAlign: "center"}} >Profile {username}</h1>
+
             <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
                 <button style={{color: "black", textAlign: "center"}} onClick={() => {
                     localStorage.removeItem('username');

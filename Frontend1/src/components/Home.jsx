@@ -8,6 +8,7 @@ import Footer from './Footer';
 import { Helmet } from 'react-helmet';
 import RandomAyah from './RandomAyah';
 import LoginPrompt from './loginprompt';
+import RandomHadith from "./RandomHadith";
 
 const Home = () => {
     const username = window.localStorage.getItem('username');
@@ -136,8 +137,8 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
                     <RandomAyah />
+                    <RandomHadith />
                 </div>
             ) : (
                 <LoginPrompt />

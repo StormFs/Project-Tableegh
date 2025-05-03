@@ -1,47 +1,39 @@
-.section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.random-ayah-container {
+.random-hadith-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 50vh;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.ayah-content {
+.hadith-content {
     width: 100%;
     max-width: 800px;
 }
 
-.ayah-content h2 {
+.hadith-content h2 {
     text-align: center;
     color: #4a6baf;
     font-size: 1.8rem;
     margin-bottom: 20px;
 }
 
-.ayah-card {
+.hadith-card {
     background-color: white;
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.ayah-card h3 {
+.hadith-card h3 {
     text-align: center;
     color: #333;
     font-size: 1.4rem;
     margin-bottom: 15px;
 }
 
-.ayah-card h6 {
+.hadith-card h6 {
     text-align: center;
     color: #666;
     font-size: 1rem;
@@ -62,7 +54,13 @@
     color: #555;
     font-size: 1.1rem;
     line-height: 1.6;
-    margin-bottom: 20px;
+}
+
+.grade-text {
+    text-align: center;
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
 .button-container {
@@ -92,4 +90,4 @@
 .button-container button:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+} 

@@ -22,9 +22,7 @@ const SearchBar = () => {
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search verses..."
                 />  
-                <IconButton type="submit" size="large">
-                    <SearchIcon />
-                </IconButton>
+
             </form>
         </div>
     );

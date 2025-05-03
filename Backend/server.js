@@ -60,8 +60,6 @@ const verseCounts = [
   5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6
 ];
 
-const totalVerses = verseCounts.reduce((a, b) => a + b, 0);
-
 function getRandomVerse() {
   const surahindex = Math.floor(Math.random() * 114) + 1;
   const totalayahs = verseCounts[surahindex - 1];
@@ -82,6 +80,29 @@ app.get('/api/randomayah', async (req, res) => {
     res.json({verse: 'Verse not found'});
   }
 });
+
+
+const HadithCounts = [7276, 7562, 3956, 5274, 4341, 5761, 6293];
+
+function getRandomHadith(){
+  const Book = Math.floor(Math.random() * 7 + 1);
+  const TotalHs = HadithCounts[Book - 1];
+  const HadithNumber = Math.floor(Math.random() * TotalHs + 1);
+  
+  return {Book, HadithNumber};
+  
+}
+
+app.get('/api/randomhadith', async (req, res) => {
+  const {Book, HadithNumber} = getRandomHadith();
+  const result = await performQuery('SELECT * FROM Hadith H Join Hadith_Book HB on HB.book_id = H.book_id WHERE H.hadith_id = @param0 AND H.book_id = @param1', [HadithNumber, Book]);
+  if(result.length > 0){
+    res.json({hadith: result[0]});
+    
+  }else{
+    res.json({hadith: 'Hadith Not Found'});
+  }
+})
 
 app.get('/api/search/:search', async (req, res) => {
   const { search } = req.params;

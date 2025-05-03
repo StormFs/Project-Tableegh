@@ -30,7 +30,6 @@ const HadithChapters = () => {
                 setLoading(false);
             }
         };
-        
         if (book_id) {
             fetchChapters();
         }
