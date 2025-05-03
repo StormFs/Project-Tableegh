@@ -29,19 +29,15 @@ const Chapters = () => {
                 setLoading(false);
             }
         };
-    
         if (book_id && chapter) {
             fetchChapterData();
         }
     }, [book_id, chapter]);
-
     useEffect(() => {
         const fetchLikedHadiths = async () => {
             if (!username) return;
-            
             try {
                 const response = await axios.get(`http://localhost:5143/api/liked-hadiths/${username}`);
-                
                 if (response.data && Array.isArray(response.data)) {
                     const formattedData = response.data.map(item => ({
                         ...item,
@@ -54,26 +50,21 @@ const Chapters = () => {
                 console.error('Error fetching liked hadiths:', err);
             }
         };
-        
         fetchLikedHadiths();
     }, [username]);
-
     const handleLikeToggle = async (hadith_id) => {
         if (!username) {
             alert('Please login to like hadiths');
             return;
         }
-
         try {
             const stringHadithId = String(hadith_id);
             const stringBookId = String(book_id);
-            
             const isLiked = likedHadiths.some(
                 likedHadith => 
                     String(likedHadith.hadith_id) === stringHadithId && 
                     String(likedHadith.book_id) === stringBookId
             );
-
             if (isLiked) {
                 await axios.delete(`http://localhost:5143/api/liked-hadiths/${username}/${book_id}/${hadith_id}`);
                 setLikedHadiths(prevLikedHadiths => 
@@ -98,18 +89,15 @@ const Chapters = () => {
             console.error('Error toggling like:', err);
         }
     };
-
     const isHadithLiked = (hadithId) => {
         const stringHadithId = String(hadithId);
         const stringBookId = String(book_id);
-        
         return likedHadiths.some(
             likedHadith => 
                 String(likedHadith.hadith_id) === stringHadithId && 
                 String(likedHadith.book_id) === stringBookId
         );
     };
-    
     return (
         <div className="chapters-page">
             <Helmet>

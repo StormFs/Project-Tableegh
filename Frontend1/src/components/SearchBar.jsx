@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/SearchBar.css';
-import { IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar = () => {
     const [search, setSearch] = useState('');
@@ -21,8 +19,7 @@ const SearchBar = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search verses..."
-                />  
-
+                />
             </form>
         </div>
     );

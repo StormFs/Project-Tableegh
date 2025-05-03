@@ -1,12 +1,9 @@
 .search-bar {
     display: flex;
     justify-content: center;
-    align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
     position: relative;
-    min-height: 100vh;
-    flex-direction: column;
 }
 
 .search-bar input {
@@ -39,28 +36,20 @@
 }
 
 .search-bar button {
-    position: relative;
-    margin-top: 20px;
-    padding: 12px 30px;
-    background-color: #4a90e2;
-    color: white;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
     border: none;
-    border-radius: 25px;
     cursor: pointer;
+    color: #666;
     transition: all 0.3s ease;
-    font-size: 16px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar button:hover {
-    background-color: #357abd;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.search-bar button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #4a90e2;
+    transform: translateY(-50%) scale(1.1);
 }
 
 /* Add a subtle pulse animation for the search icon */

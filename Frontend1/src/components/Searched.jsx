@@ -8,7 +8,6 @@ import { FaHeart } from "react-icons/fa6";
 import { Helmet } from 'react-helmet';
 import './css/Surah.css';
 import './css/SharedAnimations.css';
-import { right } from '@popperjs/core';
 
 const Searched = () => {
     const navigate = useNavigate();
