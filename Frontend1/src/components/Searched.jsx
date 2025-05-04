@@ -18,12 +18,15 @@ const Searched = () => {
     const [fontSize, setFontSize] = useState(22);
     const [likedVerses, setLikedVerses] = useState(new Set());
     const username = window.localStorage.getItem('username');
+    const [surahs, setSurahs] = useState([]);
 
     useEffect(() => {
         const fetchVerses = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/search/${search}`);
                 setVerses(response.data);
+                const surahresponse = await axios.get(`http://localhost:8080/api/searchsurah/${search}`);
+                setSurahs(surahresponse.data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching verses:', error);
@@ -88,7 +91,7 @@ const Searched = () => {
     return (
         <div className="surah-page-container fade-in">
             <Helmet>
-                <title>Tableegh - Search Results for "{search}"</title>
+                <title>Tableegh - Search : "{search}"</title>
             </Helmet>
             <Header />
             {username ? (
@@ -98,6 +101,78 @@ const Searched = () => {
                             <div className="loader"></div>
                         </div>
                     )}
+                    <div className="surah-content">
+                        <h1 className="surah-title" style={{ 
+                            textAlign: 'center', 
+                            marginBottom: '30px',
+                            color: '#2c3e50',
+                            fontSize: '2.5rem'
+                        }}>Surah Results : "{search}"</h1>
+                        <p className="surah-verses" style={{ 
+                            textAlign: 'center',
+                            fontSize: '1.2rem',
+                            color: '#666',
+                            marginBottom: '40px'
+                        }}>Found {surahs.length} surahs</p>
+                        <div className="verses-container" style={{ 
+                            maxWidth: '800px',
+                            margin: '0 auto',
+                            padding: '20px'
+                        }}>
+                            {surahs.map((surah, index) => (
+                                <div 
+                                    key={surah.surah_number} 
+                                    className="verse-container"
+                                    style={{
+                                        animationDelay: `${index * 0.1}s`,
+                                        backgroundColor: '#fff',
+                                        borderRadius: '8px',
+                                        padding: '25px',
+                                        marginBottom: '30px',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                    }}
+                                >
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        marginBottom: '15px'
+                                    }}>
+                                        <bdi style={{
+                                            fontSize: '1.1rem',
+                                            color: '#2c3e50',
+                                            fontWeight: '500'
+                                        }}>({surah.surah_name_arabic})</bdi>
+                                    </div>
+
+                                    <p style={{ 
+                                        fontSize: '1.2rem',
+                                        lineHeight: '1.6',
+                                        color: '#333',
+                                        marginBottom: '20px'
+                                    }}>{surah.surah_name_english}</p>
+
+                                    <button 
+                                        onClick={() => navigate(`/quran/${surah.surah_number}`)}
+                                        style={{
+                                            backgroundColor: '#2c3e50',
+                                            color: 'white',
+                                            border: 'none',
+                                            padding: '10px 20px',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer',
+                                            fontSize: '1rem',
+                                            transition: 'background-color 0.3s'
+                                        }}
+                                        onMouseOver={(e) => e.target.style.backgroundColor = '#34495e'}
+                                        onMouseOut={(e) => e.target.style.backgroundColor = '#2c3e50'}
+                                    >
+                                        Go to Surah
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                     <div className="surah-content">
                         <h1 className="surah-title" style={{ 
                             textAlign: 'center', 

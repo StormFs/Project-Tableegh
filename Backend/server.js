@@ -111,6 +111,20 @@ app.get('/api/search/:search', async (req, res) => {
   res.json(result);
 });
 
+app.get('/api/searchsurah/:search', async (req, res) => {
+  const { search } = req.params;
+  const lowerCaseSearch = search.toLowerCase();
+  const result = await performQuery('SELECT * FROM  Surah S WHERE S.aename LIKE @param0', [`%${lowerCaseSearch}%`]);
+  res.json(result);
+});
+
+app.get('/api/searchchapter/:search', async (req, res) => {
+  const { search } = req.params;
+  const lowerCaseSearch = search.toLowerCase();
+  const result = await performQuery('SELECT * FROM Hadith H WHERE H.english LIKE @param0', [`%${lowerCaseSearch}%`]);
+  res.json(result);
+});
+
 app.get('/api/likedverses/:username', async (req, res) => {
     const { username } = req.params;
     try {
