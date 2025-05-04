@@ -8,6 +8,7 @@ import { FaHeart } from "react-icons/fa6";
 import { Helmet } from 'react-helmet';
 import './css/Surah.css';
 import './css/SharedAnimations.css';
+import SearchBar from './SearchBar';
 
 const Searched = () => {
     const navigate = useNavigate();
@@ -101,6 +102,7 @@ const Searched = () => {
                             <div className="loader"></div>
                         </div>
                     )}
+                    <SearchBar />
                     <div className="surah-content">
                         <h1 className="surah-title" style={{ 
                             textAlign: 'center', 
@@ -258,7 +260,7 @@ const Searched = () => {
                                     }}></p>
 
                                     <button 
-                                        onClick={() => navigate(`/quran/${verse.surah_number[0]}`)}
+                                        onClick={() => navigate(`/quran/${verse.surah_number[0]}?verse=${verse.verse_number}`)}
                                         style={{
                                             backgroundColor: '#2c3e50',
                                             color: 'white',

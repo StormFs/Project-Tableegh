@@ -62,3 +62,84 @@
 .search-bar button:active {
     animation: pulse 0.3s ease;
 }
+
+.live-results {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    z-index: 1000;
+}
+
+.results-section {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.results-section:last-child {
+    border-bottom: none;
+}
+
+.results-section h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.result-item {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: #333;
+}
+
+.result-item:hover {
+    background-color: #f0f2f5;
+}
+
+.loading {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+
+.no-results {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+
+/* Scrollbar styling */
+.live-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.live-results::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.live-results::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.live-results::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Footer from './Footer';
 import { useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import './css/Surah.css';
 import './css/SharedAnimations.css';
 import { FaRegHeart } from "react-icons/fa";
@@ -13,6 +13,7 @@ import { Helmet } from 'react-helmet';
 
 const Surah = () => {
     const { surah_number } = useParams();
+    const location = useLocation();
     const [surah, setSurah] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,6 +21,7 @@ const Surah = () => {
     const [name, setName] = useState('');
     const [likedVerses, setLikedVerses] = useState(new Set());
     const username = window.localStorage.getItem('username');
+
     useEffect(() => {
         const fetchSurah = async () => {
             try {
@@ -35,6 +37,28 @@ const Surah = () => {
         };
         fetchSurah();
     }, [surah_number]);
+
+    // Add effect to handle verse scrolling
+    useEffect(() => {
+        if (!loading && surah.length > 0) {
+            const params = new URLSearchParams(location.search);
+            const verseNumber = params.get('verse');
+            if (verseNumber) {
+                // Small delay to ensure DOM is ready
+                setTimeout(() => {
+                    const verseElement = document.getElementById(`verse-${verseNumber}`);
+                    if (verseElement) {
+                        verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Add highlight effect
+                        verseElement.style.backgroundColor = '#f0f2f5';
+                        setTimeout(() => {
+                            verseElement.style.backgroundColor = 'transparent';
+                        }, 2000);
+                    }
+                }, 100);
+            }
+        }
+    }, [loading, surah, location.search]);
 
     const getlikes = async () => {
         try {
@@ -111,25 +135,29 @@ const Surah = () => {
                     <div className="verses-container">
                         {surah.map((verse, index) => (
                             <div 
-                        key={verse.verse_number} 
-                        className="verse-container"
-                        style={{animationDelay: `${index * 0.1}s`}}
-                    >
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <button style={{backgroundColor: 'transparent', border: 'none', marginRight: '10px'}} onClick={() => toggleLike(verse.verse_number)}>
-                                {likedVerses.has(`${surah_number}:${verse.verse_number}`) ? <FaHeart style={{color: 'red'}} size={30} /> : <FaRegHeart size={30} />}
-                            </button>
-                            <bdi className="verse-number" style={{ fontSize: `${fontSize}px`, display: 'flex', alignItems: 'center', fontFamily: 'Al Qalam Indopak Arabic Font' }}>
-                                {verse.verse_number} - {verse.arabic} 
-                            </bdi>
-                        </div>
-                        <hr />
-                        <p style={{ fontSize: `${fontSize}px`, marginTop: '20px', textAlign: 'left' }}>{verse.english}</p>
-                        <br />
+                                key={verse.verse_number} 
+                                id={`verse-${verse.verse_number}`}
+                                className="verse-container"
+                                style={{
+                                    animationDelay: `${index * 0.1}s`,
+                                    transition: 'background-color 0.5s ease'
+                                }}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <button style={{backgroundColor: 'transparent', border: 'none', marginRight: '10px'}} onClick={() => toggleLike(verse.verse_number)}>
+                                        {likedVerses.has(`${surah_number}:${verse.verse_number}`) ? <FaHeart style={{color: 'red'}} size={30} /> : <FaRegHeart size={30} />}
+                                    </button>
+                                    <bdi className="verse-number" style={{ fontSize: `${fontSize}px`, display: 'flex', alignItems: 'center', fontFamily: 'Al Qalam Indopak Arabic Font' }}>
+                                        {verse.verse_number} - {verse.arabic} 
+                                    </bdi>
+                                </div>
+                                <hr />
+                                <p style={{ fontSize: `${fontSize}px`, marginTop: '20px', textAlign: 'left' }}>{verse.english}</p>
+                                <br />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            </div>
+                </div>
             </div>
             ) : (
                 <LoginPrompt />

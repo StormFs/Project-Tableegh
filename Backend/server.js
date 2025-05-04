@@ -114,7 +114,7 @@ app.get('/api/search/:search', async (req, res) => {
 app.get('/api/searchsurah/:search', async (req, res) => {
   const { search } = req.params;
   const lowerCaseSearch = search.toLowerCase();
-  const result = await performQuery('SELECT * FROM  Surah S WHERE S.aename LIKE @param0', [`%${lowerCaseSearch}%`]);
+  const result = await performQuery('SELECT * FROM  Surah S WHERE S.aename LIKE @param0 OR S.surah_name_english LIKE @param0', [`%${lowerCaseSearch}%`]);
   res.json(result);
 });
 
