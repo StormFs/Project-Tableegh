@@ -38,18 +38,15 @@ const Surah = () => {
         fetchSurah();
     }, [surah_number]);
 
-    // Add effect to handle verse scrolling
     useEffect(() => {
         if (!loading && surah.length > 0) {
             const params = new URLSearchParams(location.search);
             const verseNumber = params.get('verse');
             if (verseNumber) {
-                // Small delay to ensure DOM is ready
                 setTimeout(() => {
                     const verseElement = document.getElementById(`verse-${verseNumber}`);
                     if (verseElement) {
                         verseElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        // Add highlight effect
                         verseElement.style.backgroundColor = '#f0f2f5';
                         setTimeout(() => {
                             verseElement.style.backgroundColor = 'transparent';

@@ -17,6 +17,7 @@ import Chapters from "./components/Chapters"
 import LikedHadiths from "./components/Likedhadith"
 import Searched from "./components/Searched";
 import ScrollToTop from "./components/scrolltotop";
+import IndividualHadith from "./components/IndividualHadith";
 
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/hadith" element={<Hadith />} />
         <Route path="/hadith/:book_id/chapters" element={<HadithChapters />} />
         <Route path="/hadith/:book_id/chapters/:chapter" element={<Chapters />} />
+        <Route path="/hadith/:book_id/chapters/:chapter/hadith/:hadith_id" element={<IndividualHadith />} />
         <Route path="/quran/:surah_number" element={<Surah />} />
         <Route path="/liked-verses" element={<LikedVerses />} />
         <Route path="/liked-hadith" element={<LikedHadiths />} />

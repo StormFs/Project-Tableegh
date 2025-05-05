@@ -4,9 +4,11 @@ import Header from './Header';
 import './css/SharedAnimations.css';
 import './css/RandomAyah.css';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const RandomAyah = () => {
     const [random, setRandom] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchRandomAyah = async () => {
             try {
@@ -22,6 +24,7 @@ const RandomAyah = () => {
         };
         fetchRandomAyah();
     }, []);
+
     return (
         <div className="random-ayah-container">
             <div className="ayah-content">
@@ -33,7 +36,7 @@ const RandomAyah = () => {
                     <p className="arabic-text">{random.arabic}</p>
                     <p className="english-text">{random.english}</p>
                     <div className="button-container">
-                        <Button variant='Secondary'>Goto Ayah</Button>
+                        <Button variant='Secondary' onClick={() => navigate(`/quran/${random.surah_number[0]}?verse=${random.verse_number}`)}>Goto Ayah</Button>
                     </div>
                 </div>
             </div>

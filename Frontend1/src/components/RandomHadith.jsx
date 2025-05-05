@@ -5,9 +5,12 @@ import './css/SharedAnimations.css';
 import './css/RandomAyah.css';
 import './css/RandomHadith.css';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const RandomHadith = () => {
     const [random, setRandom] = useState([]);
+    const navigate = useNavigate();
+   
     useEffect(() => {
         const fetchRandomHadith = async () => {
             try {
@@ -23,6 +26,7 @@ const RandomHadith = () => {
         };
         fetchRandomHadith();
     }, []);
+
     return (
         <div className="random-hadith-container">
             <div className="hadith-content">
@@ -36,7 +40,14 @@ const RandomHadith = () => {
                     <hr/>
                     <p className="grade-text">{random.grade}</p>
                     <div className="button-container">
-                        <Button variant='Secondary'>Goto Hadith</Button>
+                        <Button 
+                            variant='Secondary' 
+                            onClick={() => navigate(`/hadith/${random.book_id[0]}/chapters/${random.chapter}/hadith/${random.hadith_id}`, { 
+                                state: { scrollToHadith: random.hadith_id } 
+                            })}
+                        >
+                            Goto Hadith
+                        </Button>
                     </div>
                 </div>
             </div>

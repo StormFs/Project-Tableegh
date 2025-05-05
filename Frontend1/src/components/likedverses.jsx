@@ -91,7 +91,7 @@ const LikedVerses = () => {
                                 <button style={{backgroundColor: 'transparent'}} onClick={() => toggleLike(verse.verse_number, verse.surah_number)}>
                                     {<FaHeart style={{ color: 'red' , backgroundColor: 'transparent'}} />}
                                 </button>
-                                <button onClick={() => navigate(`/quran/${verse.surah_number}`)}>
+                                <button onClick={() => navigate(`/quran/${verse.surah_number}?verse=${verse.verse_number}`)}>
                                     Go to Surah
                                 </button>
                             </div>

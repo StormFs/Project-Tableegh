@@ -1,0 +1,101 @@
+.individual-hadith {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hadith-container {
+    max-width: 800px;
+    margin: 100px auto 0;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hadith-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.hadith-header h1 {
+    margin: 0;
+    color: #333;
+}
+
+.back-button {
+    padding: 0.5rem 1rem;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background: #45a049;
+}
+
+.hadith-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.arabic-text {
+    font-size: 1.5rem;
+    text-align: right;
+    direction: rtl;
+    line-height: 1.8;
+    color: #333;
+}
+
+.english-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+.hadith-grade {
+    padding: 0.5rem 1rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.loading {
+    text-align: center;
+    margin-top: 100px;
+    color: #666;
+}
+
+.error {
+    text-align: center;
+    margin-top: 100px;
+    color: #f44336;
+}
+
+.no-hadith {
+    text-align: center;
+    margin-top: 100px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .hadith-container {
+        margin: 80px 1rem 0;
+        padding: 1rem;
+    }
+
+    .arabic-text {
+        font-size: 1.2rem;
+    }
+
+    .english-text {
+        font-size: 1rem;
+    }
+} 

@@ -1,80 +1,194 @@
 .hadith-chapters-page {
-    background-color: #f0f0f0;
     min-height: 100vh;
+    background-color: #f8f9fa;
 }
 
 .hadith-chapters-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    width: 100%;
-    background-color: #f0f0f0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-header {
     margin-top: 100px;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.search-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
 .chapters-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
 }
 
-.hadith-chapter-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    animation: fadeIn 0.5s ease-in-out forwards;
+.chapter-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out forwards;
     opacity: 0;
 }
 
-.hadith-chapter-card h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 10px;
+.chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.hadith-chapter-card p {
-    font-size: 16px;
-    line-height: 1.5;
+.chapter-icon {
+    font-size: 2rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
 }
 
-.hadith-chapter-card:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease-in-out;
+.chapter-card:hover .chapter-icon {
+    transform: scale(1.1);
 }
 
-.hadith-chapter-card:hover h2 {
-    color: #007bff;
-}   
+.chapter-content {
+    position: relative;
+    z-index: 1;
+}
+
+.chapter-title {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.chapter-number {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.chapter-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(76, 175, 80, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 15px;
+}
+
+.chapter-card:hover .chapter-hover {
+    opacity: 1;
+}
+
+.chapter-hover span {
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
 
 .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    width: 100%;
+    min-height: 300px;
 }
 
 .loader {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
     width: 50px;
     height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #4CAF50;
+    border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
 .error-message {
-    color: #dc3545;
     text-align: center;
-    padding: 20px;
-    font-size: 18px;
-    font-weight: 500;
+    color: #e74c3c;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes spin {
@@ -82,11 +196,29 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive layout for smaller screens */
 @media (max-width: 768px) {
+    .hadith-chapters-container {
+        padding: 1rem;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
     .chapters-grid {
         grid-template-columns: 1fr;
     }
+
+    .chapter-card {
+        padding: 1rem;
+    }
+}
+
+.hadith-range {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
 }
 
 

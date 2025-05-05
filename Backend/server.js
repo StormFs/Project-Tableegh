@@ -114,15 +114,50 @@ app.get('/api/search/:search', async (req, res) => {
 app.get('/api/searchsurah/:search', async (req, res) => {
   const { search } = req.params;
   const lowerCaseSearch = search.toLowerCase();
-  const result = await performQuery('SELECT * FROM  Surah S WHERE S.aename LIKE @param0 OR S.surah_name_english LIKE @param0', [`%${lowerCaseSearch}%`]);
+  const result = await performQuery('SELECT * FROM  Surah S WHERE S.aename LIKE @param0 OR S.surah_name_english LIKE @param0 or S.surah_number like @param0', [`%${lowerCaseSearch}%`]);
   res.json(result);
 });
 
 app.get('/api/searchchapter/:search', async (req, res) => {
   const { search } = req.params;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const offset = (page - 1) * limit;
+  
   const lowerCaseSearch = search.toLowerCase();
-  const result = await performQuery('SELECT * FROM Hadith H WHERE H.english LIKE @param0', [`%${lowerCaseSearch}%`]);
-  res.json(result);
+  
+  try {
+    // Use connection from pool
+    const pool = await sql.connect(config);
+    const request = pool.request();
+    
+    // Optimized query with pagination and better search
+    const result = await request.query(`
+      SELECT TOP ${limit} H.*, HB.book_name_english 
+      FROM Hadith H 
+      JOIN Hadith_Book HB ON H.Book_id = HB.Book_id 
+      WHERE CONTAINS(H.english, @search)
+      ORDER BY H.hadith_id
+      OFFSET ${offset} ROWS
+    `);
+    
+    // Get total count for pagination
+    const countResult = await request.query(`
+      SELECT COUNT(*) as total 
+      FROM Hadith H 
+      WHERE CONTAINS(H.english, @search)
+    `);
+    
+    res.json({
+      results: result.recordsets[0],
+      total: countResult.recordsets[0][0].total,
+      page,
+      totalPages: Math.ceil(countResult.recordsets[0][0].total / limit)
+    });
+  } catch (error) {
+    console.error('Error in hadith search:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.get('/api/likedverses/:username', async (req, res) => {
@@ -362,6 +397,26 @@ app.get('/api/hadith/:book_id/chapters', async (req, res) => {
   res.json(result);
 });
 
+app.get('/api/hadith/minmax/:book_id/:chapter', async (req, res) => {
+  const { book_id, chapter } = req.params;
+  console.log(book_id, chapter);
+  try {
+    const result = await performQuery(
+      'SELECT MIN(hadith_id) as min_id, MAX(hadith_id) as max_id FROM Hadith WHERE book_id = @param1 AND chapter = @param0',
+      [chapter, book_id]
+    );
+    console.log("result = ",result);
+    if (result && result.length > 0) {
+      res.json(result);
+    } else {
+      res.json({ min_id: null, max_id: null });
+    }
+  } catch (error) {
+    console.error('Error fetching hadith range:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.get('/api/hadith/:book_id/chapters/:chapter', async (req, res) => {
   var { book_id, chapter } = req.params
   const result = await performQuery('SELECT * FROM Hadith WHERE book_id = @param0 AND chapter = @param1', [book_id, chapter]);
@@ -408,6 +463,24 @@ app.delete('/api/liked-hadiths/:username/:book_id/:hadith_id', async (req, res) 
     await performQuery('DELETE FROM Liked_Hadith WHERE hadith_id = @param0 AND user_id = @param1 AND book_id = @param2', [hadith_id, user_id[0].user_id, book_id]);
     res.json({ success: true, message: 'Liked hadith removed successfully' });
   }
+});
+
+app.get('/api/hadith/:chapter/:hadith_id', async (req, res) => {
+    const { chapter, hadith_id } = req.params;
+    try {
+        const result = await performQuery(
+            'SELECT H.*, HB.book_name_english FROM Hadith H JOIN Hadith_Book HB ON H.book_id = HB.book_id WHERE H.chapter = @param0 AND H.hadith_id = @param1',
+            [chapter, hadith_id]
+        );
+        if (result.length > 0) {
+            res.json(result[0]);
+        } else {
+            res.status(404).json({ message: 'Hadith not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching hadith:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
 
 app.listen(backendPort, () => {
