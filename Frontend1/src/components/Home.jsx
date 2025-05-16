@@ -22,7 +22,7 @@ const Home = () => {
     return (
         <div className="home-container">
             <Helmet>
-                <title>Tableegh - Home</title>
+                <title>TAFAKKUR - Home</title>
             </Helmet>
             <Header />
             {username ? (

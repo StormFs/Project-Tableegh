@@ -22,7 +22,6 @@ const Header = () => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             
-            // Show header when scrolling up or at the top of the page
             if (currentScrollY < lastScrollY || currentScrollY < 100) {
                 setIsVisible(true);
             } else {
@@ -60,7 +59,6 @@ const Header = () => {
                 <div className="logo">
                     <Link to="/" className="logo-link">
                         <img src={logo} alt="Logo" />
-                        <h4 style={{color: "black",}}>TABLEEGH</h4>
                     </Link>
                 </div>
                 {screenWidth() < 800 ? (

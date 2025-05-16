@@ -3,9 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const sql = require('mssql');
 const CryptoJS = require('crypto-js');
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+const app = require('./src/app');
+const config = require('./src/config/database');
 
 const corsOptions = {
     origin: 'http://localhost:5173',
@@ -17,17 +16,6 @@ const serverName = "localhost";
 const databaseName = "Project Tabligh";
 const sqlPort = 1433;
 const serverPort = 8080;
-
-const config = {
-    server: 'localhost',
-    user: 'sa',
-    password: 'Faheemsarwar.17',
-    database: 'Project Tabligh',
-    port: 1433,
-    options: {
-        trustServerCertificate: true
-    }
-};
 
 const backendPort = 5143;
 
@@ -118,47 +106,40 @@ app.get('/api/searchsurah/:search', async (req, res) => {
   res.json(result);
 });
 
+
 app.get('/api/searchchapter/:search', async (req, res) => {
   const { search } = req.params;
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
-  const offset = (page - 1) * limit;
-  
   const lowerCaseSearch = search.toLowerCase();
   
   try {
-    // Use connection from pool
+    // Connect to the pool
     const pool = await sql.connect(config);
     const request = pool.request();
     
-    // Optimized query with pagination and better search
+    // Input the search parameter
+    request.input('search', sql.NVarChar, `%${lowerCaseSearch}%`);
+    
+    // Single optimized query that joins with Hadith_Book and searches both english and sanad
     const result = await request.query(`
-      SELECT TOP ${limit} H.*, HB.book_name_english 
+      SELECT *
       FROM Hadith H 
-      JOIN Hadith_Book HB ON H.Book_id = HB.Book_id 
-      WHERE CONTAINS(H.english, @search)
-      ORDER BY H.hadith_id
-      OFFSET ${offset} ROWS
+      JOIN Hadith_Book HB ON H.book_id = HB.book_id
+      WHERE LOWER(H.english) LIKE @search OR LOWER(H.sanad) LIKE @search
     `);
-    
-    // Get total count for pagination
-    const countResult = await request.query(`
-      SELECT COUNT(*) as total 
-      FROM Hadith H 
-      WHERE CONTAINS(H.english, @search)
-    `);
-    
+    console.log(result.recordset);
     res.json({
-      results: result.recordsets[0],
-      total: countResult.recordsets[0][0].total,
-      page,
-      totalPages: Math.ceil(countResult.recordsets[0][0].total / limit)
+      results: result.recordset,
+      total: result.recordset.length
     });
+    
   } catch (error) {
     console.error('Error in hadith search:', error);
     res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    if (pool) await pool.close();
   }
 });
+
 
 app.get('/api/likedverses/:username', async (req, res) => {
     const { username } = req.params;

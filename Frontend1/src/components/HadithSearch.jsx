@@ -27,13 +27,25 @@ const HadithSearch = () => {
         }
 
         setLoading(true);
-        setResults([]);
 
         try {
             const response = await axios.get(`http://localhost:8080/api/searchchapter/${query}`);
-            setResults(response.data);
+            // Extract the results array from the response
+            if (response.data && response.data.results) {
+                const searchResults = response.data.results;
+                setResults(searchResults);
+                // Store search results in localStorage
+                localStorage.setItem('searchResults', JSON.stringify(searchResults));
+                localStorage.setItem('searchQuery', query);
+                console.log('Search results count:', response.data.total);
+            } else {
+                // Handle case where response structure is different
+                setResults([]);
+                console.error('Unexpected response format:', response.data);
+            }
         } catch (error) {
             console.error('Error fetching hadith:', error);
+            setResults([]);
         } finally {
             setLoading(false);
         }
@@ -50,6 +62,16 @@ const HadithSearch = () => {
         const value = e.target.value;
         setSearch(value);
         debouncedSearch(value);
+    };
+
+    // Navigate to hadith and store its index in the results
+    const navigateToHadith = (hadith, index) => {
+        // Store the current index in localStorage
+        localStorage.setItem('currentSearchIndex', index);
+        
+        navigate(`/hadith/${hadith.book_id}/chapters/${hadith.chapter}/hadith/${hadith.hadith_id}`, 
+            { state: { fromSearch: true, searchIndex: index } }
+        );
     };
 
     return (
@@ -70,19 +92,23 @@ const HadithSearch = () => {
                         <>
                             {results.length > 0 ? (
                                 <div className="results-list">
-                                    {results.map(hadith => (
+                                    {results.map((hadith, index) => (
                                         <div 
-                                            key={`${hadith.sanad}-${hadith.hadith_id}`}
+                                            key={`${hadith.book_id}-${hadith.hadith_id}`}
                                             className="result-item"
-                                            onClick={() => navigate(`/hadith/${hadith.book_id[0]}/chapters/${hadith.chapter}/hadith/${hadith.hadith_id}`, { state: { scrollToHadith: hadith.hadith_id } })}
+                                            onClick={() => navigateToHadith(hadith, index)}
                                         >
                                             <div className="hadith-header">
-                                                <span className="book-name">{hadith.book_name_english}</span>
+                                                <span className="book-name">{hadith.book_name_english || 'Hadith Book'}</span>
                                                 <span className="hadith-number">Hadith #{hadith.hadith_id}</span>
                                             </div>
                                             <div className="hadith-content">
                                                 <p className="arabic">{hadith.arabic}</p>
-                                                <p className="english">{hadith.english.substring(0, 100)}...</p>
+                                                <p className="english">
+                                                    {hadith.english && hadith.english.length > 100 
+                                                        ? `${hadith.english.substring(0, 100)}...` 
+                                                        : hadith.english}
+                                                </p>
                                             </div>
                                         </div>
                                     ))}
@@ -98,4 +124,4 @@ const HadithSearch = () => {
     );
 };
 
-export default HadithSearch; 
+export default HadithSearch;
